@@ -31,6 +31,7 @@ export default function Signup() {
       history.push('/login');
     } catch (err) {
       console.error(err);
+      alert(err);
     }
   };
 
