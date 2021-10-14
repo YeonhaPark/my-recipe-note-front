@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+input:focus,
+textarea {
+  outline: none !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: 0 0 0 30px white inset !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
