@@ -1,7 +1,13 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import React, {
+  memo,
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import { useFormContext, useFieldArray } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -78,7 +84,7 @@ interface Props {
 }
 
 // UPLOAD or CREATE
-export default function Note({
+export default memo(function Note({
   drawerOpen,
   onExpandClick,
   onUpload,
@@ -91,7 +97,6 @@ export default function Note({
     fields: ingredientFields,
     append,
     remove,
-    update,
   } = useFieldArray({
     name: 'ingredients',
   });
@@ -235,4 +240,4 @@ export default function Note({
       </form>
     </main>
   );
-}
+});

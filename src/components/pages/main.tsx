@@ -3,7 +3,7 @@
 import { jsx, css } from '@emotion/react';
 import { useHistory } from 'react-router';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useState, useEffect, ChangeEvent, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Drawer, Note } from '../organisms';
 import { apiProvider } from '../../api/providers';
 import {
@@ -43,10 +43,6 @@ export default function Main(): JSX.Element {
   const [searchTag, setSearchTag] = useState<string>('');
   const [drawerOpen, setDrawerOpen] = useState<boolean>(true);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchWords(e.target.value);
-  };
-
   const handleDrawerOpen = () => {
     setDrawerOpen((prev) => !prev);
   };
@@ -60,6 +56,7 @@ export default function Main(): JSX.Element {
       alert(err);
       history.push('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchWords]);
 
   // search condition이 업데이트 되는 조건: 유저가 서치 버튼을 눌렀을때, 태그 클릭했을 때
@@ -129,7 +126,7 @@ export default function Main(): JSX.Element {
   useEffect(() => {
     getAllPosts();
     getAllTags();
-  }, [searchTag, getAllPosts, getAllTags]);
+  }, [getAllPosts, getAllTags]);
 
   useEffect(() => {
     if (recipeList && recipeList[0]) handleRecipeClick(recipeList[0].id);
@@ -146,7 +143,7 @@ export default function Main(): JSX.Element {
           recipeList={recipeList}
           onRecipeClick={handleRecipeClick}
           searchWords={searchWords}
-          onChange={handleChange}
+          setSearchWords={setSearchWords}
           userTags={userTags}
         />
         <Note
