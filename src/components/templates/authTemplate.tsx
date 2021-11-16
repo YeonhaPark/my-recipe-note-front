@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
 import { ReactNode } from 'react';
+import { Title } from '../atoms';
 import { Container, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { black } from '../../theme/colors';
@@ -19,17 +20,12 @@ const headerStyle = css`
   align-items: center;
   margin-bottom: 2.5rem;
   text-align: center;
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 300;
   svg {
     font-size: 3rem;
   }
-  @media (min-width: 960px) {
-    font-size: 4rem;
-    svg {
-      font-size: 4rem;
-    }
-  }
+
   color: ${black};
 `;
 const horizontallyCentered = css`
@@ -48,6 +44,7 @@ export default function AuthTemplate({ children, headerName }: Props) {
     <ContainerStyled>
       <div css={horizontallyCentered}>
         <Grid item xs={6}>
+          <Title />
           <header css={headerStyle}>
             <div>{headerName}</div>
           </header>
