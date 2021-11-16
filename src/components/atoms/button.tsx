@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 import {
   Button as MButton,
   ButtonTypeMap,
@@ -40,7 +40,7 @@ const CustomButton = withStyles({
   },
 })(IButton);
 
-export default function Button({
+export default memo(function Button({
   onClick,
   children,
   color,
@@ -63,11 +63,4 @@ export default function Button({
       {children}
     </CustomButton>
   );
-}
-
-Button.defaultProps = {
-  style: {},
-  fullWidth: false,
-  color: 'inherit',
-  variant: 'text',
-};
+});

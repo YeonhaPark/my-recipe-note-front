@@ -71,7 +71,7 @@ interface Props {
   recipeList: GetRecipeResult[];
   onRecipeClick: (id: number) => void;
   searchWords: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  setSearchWords: React.Dispatch<React.SetStateAction<string>>;
   setSearchTag: React.Dispatch<React.SetStateAction<string>>;
   searchTag: string;
   userTags: GetTagResult[];
@@ -83,7 +83,7 @@ export default function Drawer({
   recipeList,
   onRecipeClick,
   searchWords,
-  onChange,
+  setSearchWords,
   setSearchTag,
   searchTag,
   userTags,
@@ -97,6 +97,9 @@ export default function Drawer({
     setIsChipActive((prev) => !prev);
   };
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchWords(e.target.value);
+  };
   return (
     <MDrawer
       sx={{
@@ -132,7 +135,7 @@ export default function Drawer({
           type="text"
           placeholder="Search..."
           value={searchWords}
-          onChange={onChange}
+          onChange={handleChange}
           fullWidth
         />
         <Search />
