@@ -21,7 +21,7 @@ import { Ingredient, Tags } from '../molecules';
 
 const useStyles = makeStyles({
   root: {
-    height: '3rem',
+    height: '2rem',
   },
 });
 const mainStyle = css`
@@ -49,9 +49,15 @@ const commonInputStyle = css`
 
 const commonTitleStyle = css`
   display: flex;
+  margin-bottom: 0.5rem;
   span {
     white-space: nowrap;
   }
+`;
+
+const ingredientSectStyle = css`
+  max-height: 280px;
+  overflow: scroll;
 `;
 
 const contentStyle = css`
@@ -59,9 +65,6 @@ const contentStyle = css`
   flex-flow: column;
   flex: 1 1 auto;
   padding-bottom: 0.75rem;
-  > div:first-of-type {
-    margin-bottom: 0.5rem;
-  }
 `;
 
 const contentTextFieldStyle = css`
@@ -210,17 +213,19 @@ export default memo(function Note({
           <div css={commonTitleStyle}>
             <span>Ingredients</span>
           </div>
-          {ingredientFields.map((ingredient, idx) => {
-            return (
-              <Ingredient
-                idx={idx}
-                data-test="ingredients"
-                key={ingredient.id}
-                onAdd={() => append({ isChecked: false, name: '' })}
-                onRemove={() => remove(idx)}
-              />
-            );
-          })}
+          <div css={ingredientSectStyle}>
+            {ingredientFields.map((ingredient, idx) => {
+              return (
+                <Ingredient
+                  idx={idx}
+                  data-test="ingredients"
+                  key={ingredient.id}
+                  onAdd={() => append({ isChecked: false, name: '' })}
+                  onRemove={() => remove(idx)}
+                />
+              );
+            })}
+          </div>
         </div>
         <div css={contentStyle}>
           <div css={commonTitleStyle}>
