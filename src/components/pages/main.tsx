@@ -16,9 +16,11 @@ import {
 import { removeEmptyVals } from '../../util/func';
 
 const mainStyle = css`
-  display: grid;
-  grid-template-columns: 240px 1fr;
   height: 100vh;
+  @media (min-width: 481px) {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+  }
 `;
 
 const drawerClosed = css`
@@ -42,6 +44,8 @@ export default function Main(): JSX.Element {
   const [searchWords, setSearchWords] = useState<string>('');
   const [searchTag, setSearchTag] = useState<string>('');
   const [drawerOpen, setDrawerOpen] = useState<boolean>(true);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [showNote, setShowNote] = useState<boolean>(false);
 
   const handleDrawerOpen = () => {
     setDrawerOpen((prev) => !prev);
@@ -124,6 +128,15 @@ export default function Main(): JSX.Element {
   );
 
   useEffect(() => {
+    const handleResize = () => {
+      document.body.clientWidth < 481 ? setIsMobile(true) : setIsMobile(false);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMobile]);
+
+  useEffect(() => {
     getAllPosts();
     getAllTags();
   }, [getAllPosts, getAllTags]);
@@ -145,6 +158,9 @@ export default function Main(): JSX.Element {
           searchWords={searchWords}
           setSearchWords={setSearchWords}
           userTags={userTags}
+          isMobile={isMobile}
+          setShowNote={setShowNote}
+          hideDrawer={showNote}
         />
         <Note
           drawerOpen={drawerOpen}
@@ -153,6 +169,9 @@ export default function Main(): JSX.Element {
           onDelete={handleDelete}
           tags={tags}
           setTags={setTags}
+          isMobile={isMobile}
+          setShowNote={setShowNote}
+          showOnMobile={showNote}
         />
       </div>
     </FormProvider>

@@ -59,7 +59,9 @@ const sectionStyle = css`
   position: absolute;
   bottom: 0;
   padding-bottom: 2rem;
-  height: 240px;
+  @media (min-width: 481px) {
+    height: 240px;
+  }
 `;
 const tagSectionStyle = css`
   height: 2.5rem;
@@ -83,6 +85,9 @@ interface Props {
   setSearchTag: React.Dispatch<React.SetStateAction<string>>;
   searchTag: string;
   userTags: GetTagResult[];
+  isMobile: boolean;
+  hideDrawer: boolean;
+  setShowNote: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Drawer({
@@ -112,14 +117,30 @@ export default function Drawer({
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchWords(e.target.value);
   };
+  const handleRecipeClick = (recipe: GetRecipeResult) => {
+    isMobile && setShowNote(true);
+    onRecipeClick(recipe.id);
+  };
+
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    history.push('/login');
+  };
+
   return (
     <MDrawer
       sx={{
-        position: 'relative',
-        width: drawerWidth,
-        flexShrink: 0,
         '& .MuiDrawer-paper': {
+          width: '100%',
+          display: isMobile && hideDrawer ? 'none' : 'block',
+        },
+        '@media (min-width: 481px)': {
+          position: 'relative',
           width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+          },
         },
       }}
       variant="persistent"
@@ -162,11 +183,11 @@ export default function Drawer({
       </div>
       <List>
         {recipeList && recipeList.length
-          ? recipeList.map((recipe) => (
+          ? recipeList.map((recipe: GetRecipeResult) => (
               <ListItem
                 data-test="list-item"
                 button
-                onClick={() => onRecipeClick(recipe.id)}
+                onClick={() => handleRecipeClick(recipe)}
                 key={recipe.id}
               >
                 <ListItemText primary={recipe.title} />
