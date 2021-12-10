@@ -9,8 +9,6 @@ import { Checkbox, IconButton } from '../atoms';
 const checkboxStyle = css`
   display: flex;
   align-items: center;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
   input {
     border: 0;
   }

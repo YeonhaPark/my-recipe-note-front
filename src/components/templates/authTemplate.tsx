@@ -43,8 +43,7 @@ export default function AuthTemplate({ children, headerName }: Props) {
   return (
     <ContainerStyled>
       <div css={horizontallyCentered}>
-        <Grid item xs={6}>
-          <Title />
+        <Grid item xs={10} md={6}>
           <header css={headerStyle}>
             <div>{headerName}</div>
           </header>

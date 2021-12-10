@@ -11,7 +11,11 @@ import React, {
 import { useFormContext, useFieldArray } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCompressAlt, faExpandAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCompressAlt,
+  faExpandAlt,
+  faChevronLeft,
+} from '@fortawesome/free-solid-svg-icons';
 import { TextField, Input, Menu, MenuItem } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { makeStyles } from '@material-ui/styles';
@@ -21,17 +25,17 @@ import { Ingredient, Tags } from '../molecules';
 
 const useStyles = makeStyles({
   root: {
-    height: '3rem',
+    height: '2rem',
   },
 });
-const mainStyle = css`
-  padding: 0 1rem;
-`;
-const formStyle = css`
-  height: 100%;
 
+const formStyle = css`
+  height: 100vh;
   display: flex;
   flex-flow: column;
+  @media (min-width: 481px) {
+    height: 100%;
+  }
 `;
 
 const headerStyle = css`
@@ -49,9 +53,15 @@ const commonInputStyle = css`
 
 const commonTitleStyle = css`
   display: flex;
+  margin-bottom: 0.5rem;
   span {
     white-space: nowrap;
   }
+`;
+
+const ingredientSectStyle = css`
+  max-height: 280px;
+  overflow: scroll;
 `;
 
 const contentStyle = css`
@@ -59,9 +69,6 @@ const contentStyle = css`
   flex-flow: column;
   flex: 1 1 auto;
   padding-bottom: 0.75rem;
-  > div:first-of-type {
-    margin-bottom: 0.5rem;
-  }
 `;
 
 const contentTextFieldStyle = css`
@@ -81,6 +88,9 @@ interface Props {
   onDelete: () => void;
   tags: string[];
   setTags: Dispatch<SetStateAction<string[]>>;
+  isMobile: boolean;
+  showOnMobile: boolean;
+  setShowNote: Dispatch<SetStateAction<boolean>>;
 }
 
 // UPLOAD or CREATE
@@ -91,6 +101,9 @@ export default memo(function Note({
   onDelete,
   tags,
   setTags,
+  isMobile,
+  showOnMobile,
+  setShowNote,
 }: Props): JSX.Element {
   const { register, handleSubmit } = useFormContext();
   const {
@@ -100,6 +113,12 @@ export default memo(function Note({
   } = useFieldArray({
     name: 'ingredients',
   });
+
+  const mainStyle = css`
+    padding: 0 1rem;
+    ${isMobile && !showOnMobile ? 'display: none' : ''}
+  `;
+
   const history = useHistory();
   const titleStyle = useStyles();
 
@@ -147,13 +166,22 @@ export default memo(function Note({
     <main css={mainStyle}>
       <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
         <header css={headerStyle}>
-          <IconButton color="basic" onClick={onExpandClick}>
-            {drawerOpen ? (
-              <FontAwesomeIcon data-test="fa-expand" icon={faExpandAlt} />
-            ) : (
-              <FontAwesomeIcon data-test="fa-compress" icon={faCompressAlt} />
-            )}
-          </IconButton>
+          {isMobile ? (
+            <IconButton color="basic" onClick={() => setShowNote(false)}>
+              <FontAwesomeIcon
+                data-test="fa-chevron-left"
+                icon={faChevronLeft}
+              />
+            </IconButton>
+          ) : (
+            <IconButton color="basic" onClick={onExpandClick}>
+              {drawerOpen ? (
+                <FontAwesomeIcon data-test="fa-expand" icon={faExpandAlt} />
+              ) : (
+                <FontAwesomeIcon data-test="fa-compress" icon={faCompressAlt} />
+              )}
+            </IconButton>
+          )}
           <div
             css={css`
               display: flex;
@@ -210,17 +238,19 @@ export default memo(function Note({
           <div css={commonTitleStyle}>
             <span>Ingredients</span>
           </div>
-          {ingredientFields.map((ingredient, idx) => {
-            return (
-              <Ingredient
-                idx={idx}
-                data-test="ingredients"
-                key={ingredient.id}
-                onAdd={() => append({ isChecked: false, name: '' })}
-                onRemove={() => remove(idx)}
-              />
-            );
-          })}
+          <div css={ingredientSectStyle}>
+            {ingredientFields.map((ingredient, idx) => {
+              return (
+                <Ingredient
+                  idx={idx}
+                  data-test="ingredients"
+                  key={ingredient.id}
+                  onAdd={() => append({ isChecked: false, name: '' })}
+                  onRemove={() => remove(idx)}
+                />
+              );
+            })}
+          </div>
         </div>
         <div css={contentStyle}>
           <div css={commonTitleStyle}>
