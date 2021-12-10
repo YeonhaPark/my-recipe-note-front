@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
 import React, { useState, ChangeEvent } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Drawer as MDrawer,
   List,
@@ -9,6 +10,8 @@ import {
   ListItemText,
   Input,
 } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { GetRecipeResult, GetTagResult, chipColors } from '../../api/types';
 import { makeStyles } from '@material-ui/styles';
 import { NoteAdd, Search, NavigateBefore } from '@material-ui/icons';
@@ -29,15 +32,20 @@ const headerStyle = css`
 
 const divider = css`
   height: 3rem;
-  justify-content: center;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid ${gray};
+  @media (min-width: 481px) {
+    justify-content: center;
+  }
 `;
 
 const addIconStyle = css`
-  position: absolute;
-  right: 0.75rem;
+  @media (min-width: 481px) {
+    position: absolute;
+    right: 0.75rem;
+  }
 `;
 
 const searchbarStyle = css`
@@ -87,8 +95,12 @@ export default function Drawer({
   setSearchTag,
   searchTag,
   userTags,
+  isMobile,
+  hideDrawer,
+  setShowNote,
 }: Props) {
   const searchStyle = useStyles();
+  const history = useHistory();
 
   const [isChipActive, setIsChipActive] = useState<boolean>(false);
 
@@ -116,6 +128,14 @@ export default function Drawer({
     >
       <header css={headerStyle}>
         <div css={divider}>
+          {isMobile && (
+            <IconButton color="basic" onClick={handleLogOut}>
+              <FontAwesomeIcon
+                data-test="fa-sign-out-alt"
+                icon={faSignOutAlt}
+              />
+            </IconButton>
+          )}
           All Recipes
           <div css={addIconStyle}>
             <IconButton
