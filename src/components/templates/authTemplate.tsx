@@ -10,7 +10,6 @@ import { black } from '../../theme/colors';
 const ContainerStyled = withStyles({
   root: {
     padding: '0 1.5rem',
-    height: '100vh',
     display: 'flex',
   },
 })(Container);
@@ -32,7 +31,7 @@ const horizontallyCentered = css`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 10rem;
+  margin-top: 4rem;
 `;
 
 interface Props {
@@ -44,6 +43,7 @@ export default function AuthTemplate({ children, headerName }: Props) {
     <ContainerStyled>
       <div css={horizontallyCentered}>
         <Grid item xs={10} md={6}>
+          <Title />
           <header css={headerStyle}>
             <div>{headerName}</div>
           </header>
