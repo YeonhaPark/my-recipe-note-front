@@ -12,6 +12,7 @@ import {
   GetRecipeResult,
   TagType,
   GetTagResult,
+  User,
 } from '../../api/types';
 import { removeEmptyVals } from '../../util/func';
 
@@ -126,6 +127,15 @@ export default function Main(): JSX.Element {
     },
     [methods],
   );
+
+  const getUser = async () => {
+    const res: User = await apiProvider.getCurrentUser();
+    if (!res) history.push('/login');
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {

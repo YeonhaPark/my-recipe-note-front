@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -5,13 +6,24 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core';
+import { apiProvider } from './api/providers';
+import { User } from './api/types';
 import { Login, Main, Signup } from './components/pages';
-import PrivateRoute from './components/auth/privateRoute';
 import 'normalize.css';
 import theme from './theme';
 
-const isLoggedIn = () => !!localStorage.getItem('token');
 function App() {
+  const [user, setUser] = useState<User>();
+
+  const getUser = async () => {
+    const res: User = await apiProvider.getCurrentUser();
+    setUser(res);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -19,12 +31,14 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
+          <Route path="/main">
+            <Main />
+          </Route>
+          <Route exact path="/">
+            <Login />
+          </Route>
           <Route path="/signup">
             <Signup />
-          </Route>
-          <PrivateRoute path="/main" component={Main} />
-          <Route exact path="/">
-            {isLoggedIn() ? <Redirect to="/main" /> : <Redirect to="/login" />}
           </Route>
         </Switch>
       </Router>

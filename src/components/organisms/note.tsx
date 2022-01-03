@@ -19,6 +19,7 @@ import {
 import { TextField, Input, Menu, MenuItem } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { makeStyles } from '@material-ui/styles';
+import { apiProvider } from '../../api/providers';
 import { IconButton, Button } from '../atoms';
 import { GetRecipeType } from '../../api/types';
 import { Ingredient, Tags } from '../molecules';
@@ -137,9 +138,13 @@ export default memo(function Note({
     setAnchorEl(null);
   };
 
-  const handleLogOut = () => {
-    localStorage.removeItem('token');
-    history.push('/login');
+  const handleLogOut = async () => {
+    try {
+      await apiProvider.logout();
+      history.push('/login');
+    } catch (err) {
+      throw err;
+    }
   };
 
   const onSubmit = (data: any) => {
