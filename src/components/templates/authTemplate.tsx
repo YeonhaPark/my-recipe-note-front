@@ -3,21 +3,19 @@
 import { jsx, css } from '@emotion/react';
 import { ReactNode } from 'react';
 import { Title } from '../atoms';
-import { Container, Grid } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
+import { Grid } from '@material-ui/core';
 import { black } from '../../theme/colors';
 
-const ContainerStyled = withStyles({
-  root: {
-    padding: '0 1.5rem',
-    display: 'flex',
-  },
-})(Container);
+const containerStyle = css`
+  padding: 0.5rem 1.5rem;
+  width: 100%;
+`;
 
 const headerStyle = css`
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.25rem;
   text-align: center;
   font-size: 2rem;
   font-weight: 300;
@@ -31,7 +29,7 @@ const horizontallyCentered = css`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 4rem;
+  margin-top: 10rem;
 `;
 
 interface Props {
@@ -40,16 +38,18 @@ interface Props {
 }
 export default function AuthTemplate({ children, headerName }: Props) {
   return (
-    <ContainerStyled>
-      <div css={horizontallyCentered}>
-        <Grid item xs={10} md={6}>
-          <Title />
-          <header css={headerStyle}>
-            <div>{headerName}</div>
-          </header>
-          {children}
-        </Grid>
+    <Grid container>
+      <div css={containerStyle}>
+        <Title />
+        <div css={horizontallyCentered}>
+          <Grid item xs={10} md={6}>
+            <header css={headerStyle}>
+              <div>{headerName}</div>
+            </header>
+            {children}
+          </Grid>
+        </div>
       </div>
-    </ContainerStyled>
+    </Grid>
   );
 }
