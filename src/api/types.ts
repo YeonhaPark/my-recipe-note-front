@@ -79,3 +79,11 @@ export interface GetRecipeResult {
   ingredients: Ingredient[];
   tags: Tag[];
 }
+
+export interface User {
+  id: number;
+  googleId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: null;
+}

@@ -1,85 +1,53 @@
-import { useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx, css } from '@emotion/react';
+import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Divider } from '@material-ui/core';
 import { apiProvider } from '../../api/providers';
-import { Button } from '../atoms';
-import { Input } from '../molecules';
+import { User } from '../../api/types';
 import { AuthTemplate } from '../templates';
+
+const sectionStyle = css`
+  margin-top: 0.75rem;
+`;
+const googleBtnStyle = css`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  height: 65px;
+  > div {
+    height: 100%;
+    width: 240px;
+    background: url('./assets/btn_google_signin_light_normal_web@2x.png')
+      no-repeat;
+    background-size: contain;
+  }
+`;
 
 export default function Login() {
   const history = useHistory();
-  const idEl = useRef<HTMLInputElement>(null);
-  const passwordEl = useRef<HTMLInputElement>(null);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    try {
-      e.preventDefault();
-      const username = idEl.current && idEl.current.value;
-      const password = passwordEl.current && passwordEl.current.value;
-      if (!(username && password))
-        throw new Error('fill out username or password');
-      const { token } = await apiProvider.postAuth('login', {
-        username,
-        password,
-      });
-      if (token) {
-        localStorage.setItem('token', token);
-        alert('Welcome!');
-        history.push('/main');
-      } else {
-        throw new Error('Please retry logging in');
-      }
-    } catch (err) {
-      alert(err as string);
-    }
+  const getUser = async () => {
+    const res: User = await apiProvider.getCurrentUser();
+    if (res && res.id) history.push('/main');
   };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
-    <AuthTemplate headerName="Login">
-      <form id="loginForm" onSubmit={handleSubmit}>
-        <section>
-          <Input
-            data-test="username"
-            myRef={idEl}
-            type="text"
-            labelName="ID"
-            placeholder="ID"
-            required
-          />
-          <Input
-            data-test="password"
-            myRef={passwordEl}
-            type="password"
-            labelName="Password"
-            placeholder="Password"
-            required
-            autoComplete="off"
-          />
-        </section>
-      </form>
+    <AuthTemplate headerName="Keep safe your never fail recipes">
       <Divider />
-      <section>
-        <Button
-          style={{ marginBottom: '0.5rem' }}
-          data-test="login-submit"
-          variant="outlined"
-          color="primary"
-          fullWidth
-          type="submit"
-          form="loginForm"
+      <section css={sectionStyle}>
+        <a
+          css={googleBtnStyle}
+          href={`${process.env.REACT_APP_SERVER_DEV}/auth/google`}
         >
-          Login
-        </Button>
-        <Link to="/signup">
-          <Button
-            style={{ marginBottom: '0.5rem' }}
-            variant="contained"
-            color="primary"
-            fullWidth
-            type="button"
-          >
-            JOIN
-          </Button>
-        </Link>
+          <div />
+        </a>
       </section>
     </AuthTemplate>
   );

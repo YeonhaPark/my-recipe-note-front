@@ -15,6 +15,7 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { GetRecipeResult, GetTagResult, chipColors } from '../../api/types';
 import { makeStyles } from '@material-ui/styles';
 import { NoteAdd, Search, NavigateBefore } from '@material-ui/icons';
+import { apiProvider } from '../../api/providers';
 import { Chip, ChipColor, IconButton } from '../atoms';
 import { gray } from '../../theme/colors';
 
@@ -122,9 +123,13 @@ export default function Drawer({
     onRecipeClick(recipe.id);
   };
 
-  const handleLogOut = () => {
-    localStorage.removeItem('token');
-    history.push('/login');
+  const handleLogOut = async () => {
+    try {
+      await apiProvider.logout();
+      history.push('/login');
+    } catch (err) {
+      throw err;
+    }
   };
 
   return (
