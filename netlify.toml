@@ -1,5 +1,5 @@
 [[redirects]]
-  from = /api/*
+  from = "/api/*"
   to = "https://my-recipe-note-back.herokuapp.com/:splat"
   status = 200
 [[headers]]
