@@ -59,7 +59,7 @@ export default function Main(): JSX.Element {
       setUserTags(tags);
     } catch (err) {
       alert(err);
-      history.push('/login');
+      // history.push('/login');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchWords]);
@@ -76,7 +76,7 @@ export default function Main(): JSX.Element {
       setRecipeList(result);
     } catch (err) {
       alert(err);
-      history.push('/login');
+      // history.push('/login');
     }
   }, [searchTag, searchWords]);
 
@@ -131,7 +131,7 @@ export default function Main(): JSX.Element {
 
   const getUser = async () => {
     const res: User = await apiProvider.getCurrentUser();
-    if (!res) history.push('/login');
+    // if (!res) history.push('/login');
   };
 
   useEffect(() => {
