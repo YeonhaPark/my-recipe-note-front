@@ -7,7 +7,7 @@ import {
   GetRecipeResult,
 } from './types';
 const BASE_URL = process.env.REACT_APP_SERVER_DEV;
-
+axios.defaults.withCredentials = true;
 const logout = async () => {
   try {
     await axios(`${BASE_URL}/api/logout`, {

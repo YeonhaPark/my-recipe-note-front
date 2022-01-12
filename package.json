@@ -21,6 +21,7 @@
     "axios": "^0.21.1",
     "cross-env": "^7.0.3",
     "global": "^4.4.0",
+    "http-proxy-middleware": "^2.0.1",
     "netlify": "^8.0.0",
     "netlify-cli": "^6.8.8",
     "normalize.css": "^8.0.1",
