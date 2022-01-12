@@ -38,7 +38,7 @@ const getAuth = async () => {
 const getCurrentUser = async () => {
   try {
     const { data } = await axios.get(`${BASE_URL}/api/current_user`, {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', crossDomain: true },
       withCredentials: true,
     });
     return handleResponse(data);
