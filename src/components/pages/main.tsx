@@ -83,6 +83,7 @@ export default function Main(): JSX.Element {
     methods.reset();
     setRecipeID('');
     setTags([]);
+    setShowNote(true);
   };
 
   const handleUpload = async (data: PostRecipeType) => {
