@@ -1,3 +1,6 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx, css } from '@emotion/react';
 import { useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Divider } from '@material-ui/core';
@@ -6,6 +9,9 @@ import { Button } from '../atoms';
 import { Input } from '../molecules';
 import { AuthTemplate } from '../templates';
 
+const sectionStyle = css`
+  margin-top: 0.75rem;
+`;
 export default function Login() {
   const history = useHistory();
   const idEl = useRef<HTMLInputElement>(null);
@@ -34,9 +40,9 @@ export default function Login() {
     }
   };
   return (
-    <AuthTemplate headerName="Login">
+    <AuthTemplate headerName="Keep safe your never fail recipes">
       <form id="loginForm" onSubmit={handleSubmit}>
-        <section>
+        <section css={sectionStyle}>
           <Input
             data-test="username"
             myRef={idEl}
