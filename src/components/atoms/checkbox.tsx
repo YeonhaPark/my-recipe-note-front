@@ -15,12 +15,13 @@ interface Props {
 }
 
 export default function Checkbox({ color, idx }: Props): JSX.Element {
-  const { register } = useFormContext();
+  const { register, getValues } = useFormContext();
 
   return (
     <CustomCheckbox
       {...register(`ingredients.${idx}.isChecked`)}
       color={color}
+      defaultChecked={getValues(`ingredients.${idx}.isChecked`)}
     />
   );
 }
